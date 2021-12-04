@@ -1,28 +1,26 @@
 extends RigidBody
 
-var input = Vector3.ZERO
+export(float) var SENSIVITIVY = 0.025	# Mouse sensitivity.
+export(float) var ACCEL = 0.3	# Speed smoothing. Smaller number means smoother transition.
+export(float) var JUMP_FORCE = 27.5
 
-const SENSIVITIVY = 0.025
-const ACCEL = 0.3
-const JUMP_FORCE = 27.5
+export(float) var SPRINT_MULTIPLIER = 1.4
+export(float) var SPEED = 15.0	# Base speed.
+export(float) var SLIDE_SPEED_MULTIPLIER = 2.0
+export(float) var SLIDE_DECELL = 0.05	# Speed falloff while sliding. Smaller number means longer slide.
+export(float) var CROUCH_SPEED_MULT = 0.5
 
-const SPRINT_MULTIPLIER = 1.4
-const SPEED = 15
-const SLIDE_SPEED_MULTIPLIER = 2.0
-const SLIDE_DECELL = 0.05
-const CROUCH_SPEED_MULT = 0.5
+export(float) var DEFAULT_FOV = 80
 
-const DEFAULT_FOV = 80
+var current_speed := 0.0
+var current_slide_speed := 0.0
+var current_sprint_mult := 1.0
 
-var current_speed = 0.0
-var current_slide_speed = 0.0
-var current_sprint_mult = 1.0
+var is_sliding := false	# true if the character is sliding or crouching
+var is_on_floor := false
+var angular_rot := 0.0
 
-var floor_object_count : int = 0
-
-var is_sliding : bool = false	# true if the character is sliding or crouching
-var is_on_floor : bool = false
-var angular_rot = 0
+var input := Vector3.ZERO
 
 onready var cam_pivot = $"Camera Pivot"
 onready var cam = $"Camera Pivot/Camera"
