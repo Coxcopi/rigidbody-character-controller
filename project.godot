@@ -21,7 +21,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ArrayUtils": "",
-"Character": ""
+"Character": "res://Visuals/UI/Icons/speed.png"
 }
 
 [application]
