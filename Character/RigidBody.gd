@@ -29,14 +29,14 @@ onready var camera_position_slide = $CameraPosition_Slide
 onready var default_collider = $CollisionShape_Default
 onready var slide_collider = $CollisionShape_Slide
 onready var groundcheck = $GroundCheck
+onready var headcheck = $TopCheck
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	cam_pivot.translation = camera_position_default.translation
 	cam.fov = DEFAULT_FOV
 	
-	slide_collider.disabled = true
-	default_collider.disabled = false
+	change_slide_collisions(false)
 
 func _input(event):
 	if (event is InputEventMouseMotion):
@@ -73,19 +73,21 @@ func _integrate_forces(state):
 				current_slide_speed = lerp(current_slide_speed, SPEED * CROUCH_SPEED_MULT, SLIDE_DECELL)
 				current_speed = current_slide_speed
 		else:
-			cam_pivot.translation = lerp(cam_pivot.translation, camera_position_default.translation, 0.2)
 			if (is_sliding):
 				cancel_slide()
 	else:
 		if (is_sliding):
 			cancel_slide()
+			
+	if (!is_sliding):
+		cam_pivot.translation = lerp(cam_pivot.translation, camera_position_default.translation, 0.2)
 	
 	cam.fov = DEFAULT_FOV + (current_speed / SPEED) * 2
 		
 	linear_velocity.x = lerp(linear_velocity.x, input.x * current_speed, ACCEL)
 	linear_velocity.z = lerp(linear_velocity.z, input.z * current_speed, ACCEL)
 	
-	if (Input.is_action_just_pressed("jump") and is_on_floor):
+	if (Input.is_action_just_pressed("jump") and is_on_floor and !headcheck.is_colliding()):
 		linear_velocity.y = JUMP_FORCE
 	
 	angular_rot = 0
@@ -94,9 +96,11 @@ func change_slide_collisions(is_now_sliding : bool) -> void:
 	if (is_now_sliding):
 		slide_collider.disabled = false
 		default_collider.disabled = true
+		headcheck.cast_to.y = 2.25
 	else:
 		default_collider.disabled = false
 		slide_collider.disabled = true
+		headcheck.cast_to.y = 3.25
 
 # Initiate crouch or slide dependent on input_speed
 func initiate_crouch_slide(input_speed : float) -> void:
@@ -109,5 +113,8 @@ func initiate_crouch_slide(input_speed : float) -> void:
 
 # Stop crouching or sliding
 func cancel_slide() -> void:
+	# Prevents slide from stopping when touching the ceiling
+	if (headcheck.is_colliding()):
+		return
 	change_slide_collisions(false)
 	is_sliding = false
