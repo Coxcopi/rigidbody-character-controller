@@ -1,4 +1,4 @@
-![header image](https://github.com/Coxcopi/rigidbody-character-controller/blob/master/Visuals/header.png)
+![header image](https://github.com/Coxcopi/rigidbody-character-controller/blob/master/Visuals/header_small.png)
 ## About
 This is a relatively simple Character controller for the Godot game engine that features walking, jumping, sprinting, sliding and crouching.
 + This project is using [Kenneys Prototype Textures](https://www.kenney.nl/assets/prototype-textures) and the
