@@ -17,11 +17,11 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Character",
 "language": "GDScript",
-"path": "res://Character 3/Character.gd"
+"path": "res://Character/Character.gd"
 } ]
 _global_script_class_icons={
 "ArrayUtils": "",
-"Character": "res://Visuals/UI/Icons/speed.png"
+"Character": ""
 }
 
 [application]

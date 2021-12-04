@@ -13,7 +13,7 @@
 [ext_resource path="res://Tests/v3/Box2_Update_Box_Metallic.png" type="Texture" id=11]
 [ext_resource path="res://Visuals/HDRIs/canary_wharf_2k.exr" type="Texture" id=12]
 [ext_resource path="res://Tests/v3/Box2_Update_Box_AO.png" type="Texture" id=13]
-[ext_resource path="res://Character 3/Character.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Character/Character.tscn" type="PackedScene" id=14]
 
 [sub_resource type="CubeMesh" id=1]
 
