@@ -6,4 +6,4 @@ This is a Character controller for the Godot game engine that features walking, 
 
 ### Project Structure
 The character scene and scripts are found in /Character/.
-The testing scene is just randomly thrown together and under development.
+The testing scene (**Main.tscn**) is just randomly thrown together and under development.
