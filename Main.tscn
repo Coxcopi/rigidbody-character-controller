@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Prototype Textures/Material.tres" type="Material" id=1]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [sub_resource type="CubeMesh" id=1]
 
 [sub_resource type="BoxShape" id=2]
+extents = Vector3( 2, 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_world_triplanar = true
@@ -33,6 +34,30 @@ background_sky = SubResource( 6 )
 background_color = Color( 0.568627, 0.74902, 0.768627, 1 )
 auto_exposure_speed = 2.0
 glow_hdr_scale = 2.15
+
+[sub_resource type="PhysicsMaterial" id=12]
+rough = true
+
+[sub_resource type="CubeMesh" id=8]
+
+[sub_resource type="BoxShape" id=9]
+
+[sub_resource type="Animation" id=11]
+resource_name = "move"
+length = 15.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 7.5, 15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -30, 0.75, -8 ), Vector3( -2, 0.75, -8 ), Vector3( -30, 0.75, -8 ) ]
+}
 
 [node name="Spatial" type="Spatial"]
 
@@ -381,162 +406,162 @@ transform = Transform( -0.767885, 0.253507, 0.588292, 0.63443, 0.173937, 0.75315
 light_energy = 0.75
 shadow_enabled = true
 
-[node name="CSGCombiner3" type="CSGCombiner" parent="."]
+[node name="Slopes" type="CSGCombiner" parent="."]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -20, 0, 20 )
 material_override = ExtResource( 1 )
 use_collision = true
 
-[node name="CSGPolygon" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 polygon = PoolVector2Array( -5, 0, -5, 4, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon2" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon2" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 5 )
 polygon = PoolVector2Array( -5, 0, -5, 5, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon3" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon3" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 10 )
 polygon = PoolVector2Array( -5, 0, -5, 6, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon4" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon4" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 15 )
 polygon = PoolVector2Array( -5, 0, -5, 7, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon5" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon5" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 20 )
 polygon = PoolVector2Array( -5, 0, -5, 8, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon6" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon6" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 25 )
 polygon = PoolVector2Array( -5, 0, -5, 9, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon7" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon7" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 30 )
 polygon = PoolVector2Array( -5, 0, -5, 10, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon10" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon10" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999996, 0, 35 )
 polygon = PoolVector2Array( -5, 0, -5, 11, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon11" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon11" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999985, 0, 40 )
 polygon = PoolVector2Array( -5, 0, -5, 12, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon12" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon12" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999985, 0, 45 )
 polygon = PoolVector2Array( -5, 0, -5, 14, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon13" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon13" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999985, 0, 50 )
 polygon = PoolVector2Array( -5, 0, -5, 16, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGPolygon14" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon14" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999985, 0, 55 )
 polygon = PoolVector2Array( -5, 0, -5, 18, 1, 0, 1, 0 )
 depth = 4.0
 
-[node name="CSGBox" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 2, -2 )
 width = 6.0
 height = 4.0
 depth = 4.0
 
-[node name="CSGBox4" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox4" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 2.5, 3 )
 width = 6.0
 height = 5.0
 depth = 4.0
 
-[node name="CSGBox5" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox5" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 3, 8 )
 width = 6.0
 height = 6.0
 depth = 4.0
 
-[node name="CSGBox6" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox6" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 3.5, 13 )
 width = 6.0
 height = 7.0
 depth = 4.0
 
-[node name="CSGBox7" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox7" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4, 18 )
 width = 6.0
 height = 8.0
 depth = 4.0
 
-[node name="CSGBox8" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox8" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4.5, 23 )
 width = 6.0
 height = 9.0
 depth = 4.0
 
-[node name="CSGBox9" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox9" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 5, 28 )
 width = 6.0
 height = 10.0
 depth = 4.0
 
-[node name="CSGBox10" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox10" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.99999, 5.5, 33 )
 width = 6.0
 height = 11.0
 depth = 4.0
 
-[node name="CSGBox11" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox11" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.99999, 6, 38 )
 width = 6.0
 height = 12.0
 depth = 4.0
 
-[node name="CSGBox12" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox12" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.99999, 7, 43 )
 width = 6.0
 height = 14.0
 depth = 4.0
 
-[node name="CSGBox13" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox13" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.99999, 8, 48 )
 width = 6.0
 height = 16.0
 depth = 4.0
 
-[node name="CSGBox14" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox14" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.99999, 9, 53 )
 width = 6.0
 height = 18.0
 depth = 4.0
 
-[node name="CSGBox2" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox2" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, -7 )
 width = 6.0
 height = 4.0
 depth = 4.0
 
-[node name="CSGBox3" type="CSGBox" parent="CSGCombiner3"]
+[node name="CSGBox3" type="CSGBox" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -12 )
 width = 6.0
 height = 4.0
 depth = 4.0
 
-[node name="CSGPolygon8" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon8" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -10 )
 polygon = PoolVector2Array( -5, 0, -5, 2, 1, 0, 1, 0 )
 depth = 4.0
 material = ExtResource( 1 )
 
-[node name="CSGPolygon9" type="CSGPolygon" parent="CSGCombiner3"]
+[node name="CSGPolygon9" type="CSGPolygon" parent="Slopes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5 )
 polygon = PoolVector2Array( -5, 0, -5, 3, 1, 0, 1, 0 )
 depth = 4.0
@@ -544,3 +569,21 @@ material = ExtResource( 1 )
 
 [node name="Character" parent="." instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.25, 0, 0 )
+
+[node name="MovingPlatform" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0.75, -8 )
+mode = 3
+physics_material_override = SubResource( 12 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MovingPlatform"]
+transform = Transform( 2, 0, 0, 0, 0.5, 0, 0, 0, 2, 0, 0, 0 )
+mesh = SubResource( 8 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="MovingPlatform"]
+transform = Transform( 2, 0, 0, 0, 0.5, 0, 0, 0, 2, 0, 0, 0 )
+shape = SubResource( 9 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatform"]
+autoplay = "move"
+anims/move = SubResource( 11 )

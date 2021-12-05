@@ -1,7 +1,7 @@
 extends RigidBody
 
 export(float) var SENSIVITIVY = 0.025	# Mouse sensitivity.
-export(float) var ACCEL = 0.3	# Speed smoothing. Smaller number means smoother transition.
+export(float) var ACCEL = 0.2	# Speed smoothing. Smaller number means smoother transition.
 export(float) var JUMP_FORCE = 27.5
 
 export(float) var SPRINT_MULTIPLIER = 1.4
