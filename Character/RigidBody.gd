@@ -96,11 +96,11 @@ func change_slide_collisions(is_now_sliding : bool) -> void:
 	if (is_now_sliding):
 		slide_collider.disabled = false
 		default_collider.disabled = true
-		headcheck.cast_to.y = 2.25
+		headcheck.cast_to.y = 2.0
 	else:
 		default_collider.disabled = false
 		slide_collider.disabled = true
-		headcheck.cast_to.y = 3.25
+		headcheck.cast_to.y = 3.0
 
 # Initiate crouch or slide dependent on input_speed
 func initiate_crouch_slide(input_speed : float) -> void:
