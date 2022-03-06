@@ -6,10 +6,10 @@ This is a relatively simple first-person Character controller for the Godot game
 + All Environment Textures/HDRIs are from [Poly Haven](https://polyhaven.com/hdris).
 
 ##### Controls
-WASD - move
-Mouse - look around
-Ctrl - slide / crouch
-Shift - sprint
+- WASD - move
+- Mouse - look around
+- Ctrl - slide / crouch
+- Shift - sprint
 
 ### Project Structure
 The character scene and scripts are found in /Character/.
