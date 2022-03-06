@@ -5,6 +5,12 @@ This is a relatively simple first-person Character controller for the Godot game
 [3D Text Plugin](https://github.com/SIsilicon/Godot-3D-text-plugin) made by [SIsilicon](https://github.com/SIsilicon).
 + All Environment Textures/HDRIs are from [Poly Haven](https://polyhaven.com/hdris).
 
+##### Controls
+WASD - move
+Mouse - look around
+Ctrl - slide / crouch
+Shift - sprint
+
 ### Project Structure
 The character scene and scripts are found in /Character/.
 The testing scene (**Main.tscn**) is just randomly thrown together and under development.
