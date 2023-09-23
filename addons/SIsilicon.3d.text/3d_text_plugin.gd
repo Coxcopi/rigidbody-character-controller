@@ -1,25 +1,25 @@
-tool
+@tool
 extends EditorPlugin
 
-const Label3D = preload("label_3d.gd")
+const _Label3D = preload("label_3d.gd")
 
 var converter_button: Button
 var edited_node: Label3D
 
 
 func _enter_tree() -> void:
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 	add_custom_type(
-			"Label3D", "Spatial",
+			"Label3D", "Node3D",
 			Label3D,
 			preload("icon_label_3d.svg")
 	)
 
 	if not converter_button:
-		converter_button = preload("label_3d_converter.tscn").instance()
+		converter_button = preload("label_3d_converter.tscn").instantiate()
 		add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, converter_button)
-		converter_button.connect("mesh_generated", self, "generate_mesh")
+		converter_button.connect("mesh_generated", Callable(self, "generate_mesh"))
 		converter_button.hide()
 
 
@@ -49,7 +49,7 @@ func clear() -> void:
 	converter_button.hide()
 
 
-func generate_mesh(mesh_inst: Spatial) -> void:
+func generate_mesh(mesh_inst: Node3D) -> void:
 	var undo_redo = get_undo_redo()
 	undo_redo.create_action("Convert Text")
 

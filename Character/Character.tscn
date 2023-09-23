@@ -1,63 +1,60 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://dmm7m4s2n6uxf"]
 
-[ext_resource path="res://Character/RigidBody.gd" type="Script" id=1]
-[ext_resource path="res://Character/Character.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://Character/RigidBody.gd" id="1"]
+[ext_resource type="Script" path="res://Character/Character.gd" id="2"]
 
-[sub_resource type="PhysicsMaterial" id=4]
+[sub_resource type="PhysicsMaterial" id="4"]
 friction = 0.0
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CapsuleShape3D" id="1"]
+radius = 0.75
+height = 3.0
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jsnk0"]
+radius = 0.75
 
-[sub_resource type="CapsuleMesh" id=3]
+[sub_resource type="CapsuleMesh" id="3"]
+height = 3.0
 
-[node name="Character" type="Spatial"]
-script = ExtResource( 2 )
+[node name="Character" type="Node3D"]
+script = ExtResource("2")
 
-[node name="RigidBody" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mass = 70.0
-physics_material_override = SubResource( 4 )
-gravity_scale = 8.0
-contacts_reported = 5
-contact_monitor = true
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
-script = ExtResource( 1 )
+mass = 75.0
+physics_material_override = SubResource("4")
+gravity_scale = 6.0
+max_contacts_reported = 5
+contact_monitor = true
+script = ExtResource("1")
 
-[node name="CollisionShape_Default" type="CollisionShape" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-shape = SubResource( 1 )
+[node name="CollisionShape_Default" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("1")
 
-[node name="CollisionShape_Slide" type="CollisionShape" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.5, 0 )
-shape = SubResource( 2 )
-disabled = true
+[node name="CollisionShape_Slide" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("CapsuleShape3D_jsnk0")
 
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
 visible = false
-mesh = SubResource( 3 )
-material/0 = null
+mesh = SubResource("3")
 
-[node name="Camera Pivot" type="Spatial" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
+[node name="Camera3D Pivot" type="Node3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="Camera" type="Camera" parent="RigidBody/Camera Pivot"]
+[node name="Camera3D" type="Camera3D" parent="RigidBody3D/Camera3D Pivot"]
 
-[node name="CameraPosition_Default" type="Position3D" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
+[node name="CameraPosition_Default" type="Marker3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="CameraPosition_Slide" type="Position3D" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
+[node name="CameraPosition_Slide" type="Marker3D" parent="RigidBody3D"]
 
-[node name="GroundCheck" type="RayCast" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-09, -1.1, 0 )
-enabled = true
-cast_to = Vector3( 0, -0.5, 0 )
+[node name="GroundCheck" type="RayCast3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-09, -1.1, 0)
+target_position = Vector3(0, -0.5, 0)
 
-[node name="TopCheck" type="RayCast" parent="RigidBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0 )
-enabled = true
-cast_to = Vector3( 0, 2.25, 0 )
+[node name="TopCheck" type="RayCast3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0)
+target_position = Vector3(0, 2.25, 0)

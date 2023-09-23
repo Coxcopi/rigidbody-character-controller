@@ -1,13 +1,13 @@
-tool
+@tool
 extends Button
 
 signal mesh_generated(mesh_inst)
 
 const PIXEL_THRESHOLD := 0.5
-const Label3D = preload("label_3d.gd")
+const _Label3D = preload("label_3d.gd")
 
-var label3d: Label3D
-var image_cache := PoolRealArray()
+var label3d: _Label3D
+var image_cache := PackedFloat32Array()
 
 # These variables are used to spread the marching_square function
 # across multiple frames.
@@ -20,25 +20,25 @@ func _on_Button_pressed() -> void:
 
 
 func generate_geometry() -> void:
-	$PopupDialog.popup_centered()
+	$Popup.popup_centered()
 	var text_size := label3d.text_size / 200.0
 	var extrude := label3d.extrude
-	var viewport := label3d.get_node("Viewport")
+	var viewport := label3d.get_node("SubViewport")
 	
-	viewport.render_target_update_mode = Viewport.UPDATE_ALWAYS
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	viewport.render_target_update_mode = Viewport.UPDATE_DISABLED
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	await get_tree().idle_frame
+	await get_tree().idle_frame
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 	
 	var image: Image = viewport.get_texture().get_data()
-	image.lock()
+	false # image.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	
 	var edges := Dictionary()
 	finished_marching = false
-	os_time = OS.get_ticks_msec()
+	os_time = Time.get_ticks_msec()
 	do_marching_squares(image, edges)
 	while not finished_marching:
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 	
 	# Contours are the edges and holes of the text.
 	# The paths are said edges combined with the holes for easier triangulation.
@@ -119,7 +119,7 @@ func generate_geometry() -> void:
 		geom.add_index(tri.c)
 	geom.generate_normals()
 
-	var material := SpatialMaterial.new()
+	var material := StandardMaterial3D.new()
 	material.albedo_color = label3d.color
 	material.metallic = label3d.metallic
 	material.roughness = label3d.roughness
@@ -127,7 +127,7 @@ func generate_geometry() -> void:
 	material.emission = label3d.emission_color
 	material.emission_energy = label3d.emission_strength
 
-	var mesh_inst := MeshInstance.new()
+	var mesh_inst := MeshInstance3D.new()
 	mesh_inst.mesh = geom.commit()
 	mesh_inst.material_override = material
 	mesh_inst.transform = label3d.transform
@@ -136,8 +136,8 @@ func generate_geometry() -> void:
 	emit_signal("mesh_generated", mesh_inst)
 	
 	image_cache.resize(0)
-	image.unlock()
-	$PopupDialog.hide()
+	false # image.unlock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
+	$Popup.hide()
 
 
 func do_marching_squares(image: Image, edges: Dictionary):
@@ -193,13 +193,13 @@ func do_marching_squares(image: Image, edges: Dictionary):
 				7:
 					create_edge(edges, i, x + bottom, y + 1, x + 1, y + right, Vector2.RIGHT)
 			
-			if OS.get_ticks_msec() - os_time > 100:
+			if Time.get_ticks_msec() - os_time > 100:
 				var max_i: int = (image.get_width() - 1) * (image.get_height() - 1)
 				var curr_i: int = x + (y * image.get_width() - 1)
-				$PopupDialog/VBoxContainer/ProgressBar.value = float(curr_i) / max_i * 100
+				$Popup/VBoxContainer/ProgressBar.value = float(curr_i) / max_i * 100
 				
-				yield(get_tree(), "idle_frame")
-				os_time = OS.get_ticks_msec()
+				await get_tree().idle_frame
+				os_time = Time.get_ticks_msec()
 	
 	finished_marching = true
 
@@ -240,7 +240,7 @@ func collect_contours(edges: Dictionary, contours: Array) -> void:
 		
 		loop_started = false
 	
-	if not edges.empty():
+	if not edges.is_empty():
 		collect_contours(edges, contours)
 
 
@@ -279,7 +279,7 @@ func decimate_holes(edges: Dictionary, contours: Array, bounds) -> void:
 				if edge_found:
 					break
 			
-			contours.remove(c)
+			#contours.remove(c)
 
 
 func douglas_peucker(points: Array, tolerance: float) -> Array:
@@ -287,7 +287,7 @@ func douglas_peucker(points: Array, tolerance: float) -> Array:
 	
 	# Farthest point not existing must mean the points only made of two,
 	# and cannot be simplified any further.
-	if farthest.empty():
+	if farthest.is_empty():
 		return points
 	
 	if farthest.distance < tolerance:
@@ -326,7 +326,7 @@ func ear_clipping(contour: Contour, triangles: Array) -> void:
 				var point: Vector2 = points[p]
 				if point == point_a or point == point_b or point == point_c:
 					continue
-				if Geometry.point_is_inside_triangle(point, point_a, point_b, point_c):
+				if Geometry2D.point_is_inside_triangle(point, point_a, point_b, point_c):
 					has_point = true
 					break
 			
@@ -373,7 +373,7 @@ func distance_to_segment(point, a, b) -> float:
 	var t := inverse_lerp(a.x, b.x, projected.x) if a.x != b.x else \
 			inverse_lerp(a.y, b.y, projected.y)
 
-	var snapped: Vector2 = a.linear_interpolate(b, t)
+	var snapped: Vector2 = a.lerp(b, t)
 	return point.distance_squared_to(snapped)
 
 

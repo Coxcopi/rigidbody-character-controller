@@ -1,19 +1,19 @@
-extends RigidBody
+extends RigidBody3D
 
-export(float) var SENSIVITIVY = 0.025	# Mouse sensitivity.
-export(float) var ACCEL = 0.2	# Speed smoothing. Smaller number means smoother transition.
-export(float) var JUMP_FORCE = 27.5
+@export var SENSIVITIVY: float = 0.125	# Mouse sensitivity.
+@export var ACCEL: float = 0.15	  # Speed smoothing. Smaller number means smoother transition.
+@export var JUMP_FORCE: float = 22.5
 
-export(float) var SPRINT_MULTIPLIER = 1.4
-export(float) var SPEED = 15.0	# Base speed.
-export(float) var SLIDE_SPEED_MULTIPLIER = 2.0
-export(float) var SLIDE_DECELL = 0.05	# Speed falloff while sliding. Smaller number means longer slide.
-export(float) var CROUCH_SPEED_MULT = 0.5
+@export var SPRINT_MULTIPLIER: float = 1.4
+@export var SPEED: float = 10.0	  # Base speed.
+@export var SLIDE_SPEED_MULTIPLIER: float = 2.0
+@export var SLIDE_DECELL: float = 0.05	# Speed falloff while sliding. Smaller number means longer slide.
+@export var CROUCH_SPEED_MULT: float = 0.5
 
-export(float) var DEFAULT_FOV = 80
+@export var DEFAULT_FOV: float = 80
 
 var current_speed := 0.0
-var current_slide_speed := 0.0
+var current_slide_speed := -0.5
 var current_sprint_mult := 1.0
 
 var is_sliding := false	# true if the character is sliding or crouching
@@ -22,18 +22,18 @@ var angular_rot := 0.0
 
 var input := Vector3.ZERO
 
-onready var cam_pivot = $"Camera Pivot"
-onready var cam = $"Camera Pivot/Camera"
-onready var camera_position_default = $CameraPosition_Default
-onready var camera_position_slide = $CameraPosition_Slide
-onready var default_collider = $CollisionShape_Default
-onready var slide_collider = $CollisionShape_Slide
-onready var groundcheck = $GroundCheck
-onready var headcheck = $TopCheck
+@onready var cam_pivot = $"Camera3D Pivot"
+@onready var cam = $"Camera3D Pivot/Camera3D"
+@onready var camera_position_default = $CameraPosition_Default
+@onready var camera_position_slide = $CameraPosition_Slide
+@onready var default_collider = $CollisionShape_Default
+@onready var slide_collider = $CollisionShape_Slide
+@onready var groundcheck = $GroundCheck
+@onready var headcheck = $TopCheck
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	cam_pivot.translation = camera_position_default.translation
+	cam_pivot.position = camera_position_default.position
 	cam.fov = DEFAULT_FOV
 	
 	change_slide_collisions(false)
@@ -41,16 +41,16 @@ func _ready():
 func _input(event):
 	if (event is InputEventMouseMotion):
 		angular_rot = -event.relative.x * SENSIVITIVY
-		cam_pivot.rotate_x(deg2rad(-event.relative.y * SENSIVITIVY))
+		cam_pivot.rotate_x(deg_to_rad(-event.relative.y * SENSIVITIVY))
 
-func _integrate_forces(state):
+func _integrate_forces(_state):
 	
 	is_on_floor = groundcheck.is_colliding()
 	
 	input.z = -(Input.get_action_strength("up") - Input.get_action_strength("down"))
 	input.x = -(Input.get_action_strength("left") - Input.get_action_strength("right"))
 	
-	input = global_transform.basis.xform(input.normalized())
+	input = global_transform.basis * (input.normalized())
 	
 	current_speed = SPEED
 	
@@ -65,7 +65,7 @@ func _integrate_forces(state):
 			current_sprint_mult = lerp(current_sprint_mult, 1.0, 0.5)
 			
 		if (Input.is_action_pressed("slide")):
-			cam_pivot.translation = lerp(cam_pivot.translation, camera_position_slide.translation, 0.2)
+			cam_pivot.position = lerp(cam_pivot.position, camera_position_slide.position, 0.2)
 			
 			if (!is_sliding):	# When the slide is initiated
 				initiate_crouch_slide(current_speed)
@@ -80,7 +80,7 @@ func _integrate_forces(state):
 			cancel_slide()
 			
 	if (!is_sliding):
-		cam_pivot.translation = lerp(cam_pivot.translation, camera_position_default.translation, 0.2)
+		cam_pivot.position = lerp(cam_pivot.position, camera_position_default.position, 0.2)
 	
 	cam.fov = DEFAULT_FOV + (current_speed / SPEED) * 2
 		
@@ -96,11 +96,11 @@ func change_slide_collisions(is_now_sliding : bool) -> void:
 	if (is_now_sliding):
 		slide_collider.disabled = false
 		default_collider.disabled = true
-		headcheck.cast_to.y = 2.0
+		headcheck.target_position.y = 2.0
 	else:
 		default_collider.disabled = false
 		slide_collider.disabled = true
-		headcheck.cast_to.y = 3.0
+		headcheck.target_position.y = 3.0
 
 # Initiate crouch or slide dependent on input_speed
 func initiate_crouch_slide(input_speed : float) -> void:
