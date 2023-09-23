@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://2jtx7hmpm2m3"
+path="res://.godot/imported/circle_90.obj-b206847785e0f67ae4e9334a51d6aaed.mesh"
+
+[deps]
+
+files=["res://.godot/imported/circle_90.obj-b206847785e0f67ae4e9334a51d6aaed.mesh"]
+
+source_file="res://Prototype Textures/Prototype Meshes/circle_90.obj"
+dest_files=["res://.godot/imported/circle_90.obj-b206847785e0f67ae4e9334a51d6aaed.mesh", "res://.godot/imported/circle_90.obj-b206847785e0f67ae4e9334a51d6aaed.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
