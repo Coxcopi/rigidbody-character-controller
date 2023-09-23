@@ -17,6 +17,9 @@ config/icon="res://Visuals/UI/Icons/speed.png"
 
 [display]
 
+window/size/viewport_width=1024
+window/size/viewport_height=600
+window/size/mode=3
 window/size/fullscreen=true
 
 [editor_plugins]

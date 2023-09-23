@@ -1,11 +1,11 @@
 extends RigidBody3D
 
-@export var SENSIVITIVY: float = 0.125	# Mouse sensitivity.
-@export var ACCEL: float = 0.15	  # Speed smoothing. Smaller number means smoother transition.
-@export var JUMP_FORCE: float = 22.5
+@export var SENSITIVITY: float = 0.125	# Mouse sensitivity.
+@export var ACCEL: float = 0.2	  # Speed smoothing. Smaller number means smoother transition.
+@export var JUMP_FORCE: float = 27.5
 
 @export var SPRINT_MULTIPLIER: float = 1.4
-@export var SPEED: float = 10.0	  # Base speed.
+@export var SPEED: float = 15.0	  # Base speed.
 @export var SLIDE_SPEED_MULTIPLIER: float = 2.0
 @export var SLIDE_DECELL: float = 0.05	# Speed falloff while sliding. Smaller number means longer slide.
 @export var CROUCH_SPEED_MULT: float = 0.5
@@ -40,8 +40,8 @@ func _ready():
 
 func _input(event):
 	if (event is InputEventMouseMotion):
-		angular_rot = -event.relative.x * SENSIVITIVY
-		cam_pivot.rotate_x(deg_to_rad(-event.relative.y * SENSIVITIVY))
+		angular_rot = -event.relative.x * SENSITIVITY
+		cam_pivot.rotate_x(deg_to_rad(-event.relative.y * SENSITIVITY))
 
 func _integrate_forces(_state):
 	
@@ -94,12 +94,12 @@ func _integrate_forces(_state):
 
 func change_slide_collisions(is_now_sliding : bool) -> void:
 	if (is_now_sliding):
-		slide_collider.disabled = false
-		default_collider.disabled = true
+		slide_collider.set_deferred("disabled", false)  
+		default_collider.set_deferred("disabled", true)  
 		headcheck.target_position.y = 2.0
 	else:
-		default_collider.disabled = false
-		slide_collider.disabled = true
+		default_collider.set_deferred("disabled", false)
+		slide_collider.set_deferred("disabled", true)  
 		headcheck.target_position.y = 3.0
 
 # Initiate crouch or slide dependent on input_speed
