@@ -1,2 +1,4 @@
-extends Spatial
-class_name Character, "res://Visuals/UI/Icons/speed.png"
+@icon("res://Visuals/UI/Icons/speed.png")
+extends Node3D
+class_name Character
+
