@@ -1,8 +1,0 @@
-[gd_resource type="FontFile" load_steps=2 format=3]
-
-[ext_resource type="FontFile" uid="uid://cwxuw21bp46at" path="res://Visuals/default_font.ttf" id="1"]
-
-[resource]
-size = 100
-use_filter = true
-font_data = ExtResource( 1 )
